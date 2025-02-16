@@ -15,7 +15,7 @@ public class DeliveryCostTest {
 
     @ParameterizedTest
     @Tag("Positive")
-    @DisplayName("Checking the calculation of the shipping cost with correct data")
+    @DisplayName("Checks the validity of delivery cost calculations using a range of correct input parameters")
     @MethodSource("validDeliveryData")
     void nonProblematicDeliveryTest(int distance, CargoDimension cargo, boolean fragile, ServiceWorkload rate, double expectedCost) {
 
@@ -41,21 +41,21 @@ public class DeliveryCostTest {
 
     @Test
     @Tag("Negative")
-    @DisplayName("Checking if an exception is triggered at a negative distance")
+    @DisplayName("Checks for IllegalArgumentException with negative delivery distance.")
     void negativeDistanceOrderCost() {
        Delivery delivery = new Delivery(-1, CargoDimension.SMALL, true,ServiceWorkload.VERY_HIGH);
        Throwable exception = assertThrows(IllegalArgumentException.class, delivery::calculateDeliveryCost);
 
-       assertEquals("Значение расстояния до пункта назвачения должно быть положительным",exception.getMessage());
+       assertEquals("The value of the distance to the destination must be positive.",exception.getMessage());
     }
 
     @Test
     @Tag("Negative")
-    @DisplayName("Checking if an exception when trying to deliver a fragile item over a distance of more than 30 km")
+    @DisplayName("Checks for UnsupportedOperationException when fragile cargo exceeds 30 km delivery distance")
     void deliveryCostFragileOverLimitTest() {
         Delivery delivery = new Delivery(31, CargoDimension.LARGE, true, ServiceWorkload.NORMAL);
         Throwable exception = assertThrows(UnsupportedOperationException.class, delivery::calculateDeliveryCost);
 
-        assertEquals("Хрупкий груз не может быть доставлен на расстояние более 30 км", exception.getMessage());
+        assertEquals("Fragile cargo cannot be transported over a distance of more than 30 km", exception.getMessage());
     }
 }

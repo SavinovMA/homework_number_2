@@ -26,7 +26,7 @@ public class Delivery {
         if (destinationDistance >10) return 200;
         if (destinationDistance >2) return 100;
         if (destinationDistance >=0) return 50;
-        throw new IllegalArgumentException("Значение расстояния до пункта назвачения должно быть положительным");
+        throw new IllegalArgumentException("The value of the distance to the destination must be positive.");
         //выбрасывается исключение, если расстояние до пункта назначения не положительное число
     }
 
@@ -36,7 +36,7 @@ public class Delivery {
 
     public double calculateDeliveryCost() {
         if (this.isFragile&&this.destinationDistance>30)
-            throw new UnsupportedOperationException("Хрупкий груз не может быть доставлен на расстояние более 30 км");
+            throw new UnsupportedOperationException("Fragile cargo cannot be transported over a distance of more than 30 km");
 
         double calculateDeliveryCost =
                 (getDestinationDistanceCostIncrease(this.destinationDistance)+this.cargoDimension.getCostIncrease()+
